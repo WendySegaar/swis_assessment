@@ -14,13 +14,13 @@ class CreateRegionsTable extends Migration
     public function up()
     {
         Schema::create('regions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('region_id');
             $table->string('region', 50);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
 
-            $table->bigInteger('schoolholiday_id');
-            $table->foreign('schoolholiday_id')->references('schoolholiday_id')->on('schoolholidays');
+            $table->bigInteger('school_holiday_id');
+            $table->foreign('school_holiday_id')->references('school_holiday_id')->on('school_holidays');
 
             $table->timestamps();
         });

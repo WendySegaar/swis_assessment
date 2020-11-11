@@ -14,14 +14,13 @@ class CreateContentTable extends Migration
     public function up()
     {
         Schema::create('content', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('content_id');
             $table->string('title')->nullable();
             $table->text('notice')->nullable();
             $table->string('license')->nullable();
             $table->string('authorities')->nullable();
-            $table->string('rightholders')->nullable();
+            $table->string('rightsholders')->nullable();
             $table->string('location', 20)->nullable();
-            $table->dateTime('last_modified')->nullable();
             $table->timestamps();
         });
     }
