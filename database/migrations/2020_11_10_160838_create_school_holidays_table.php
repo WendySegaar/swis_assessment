@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSchoolholidaysTable extends Migration
+class CreateSchoolHolidaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateSchoolholidaysTable extends Migration
      */
     public function up()
     {
-        Schema::create('schoolholidays', function (Blueprint $table) {
-            $table->bigIncrements('schoolholiday_id');
+        Schema::create('school_holidays', function (Blueprint $table) {
+            $table->bigIncrements('school_holiday_id');
             $table->string('schoolyear', 11);
             $table->string('type', 50);
             $table->boolean('compulsory_dates')->default(1);
@@ -29,6 +29,6 @@ class CreateSchoolholidaysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schoolholidays');
+        Schema::dropIfExists('school_holidays');
     }
 }
