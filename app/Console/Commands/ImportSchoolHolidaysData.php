@@ -55,7 +55,7 @@ class ImportSchoolHolidaysData extends Command
             $content = $result['content'][0];
 
             $title = trim($content['title']);
-            $notice = html_entity_decode(trim($result['notice']));
+            $notice = trim(str_replace('&sup1;', '', $result['notice']));
             $authorities = trim($result['authorities'][0]);
             $rightholders = trim($result['rightsholders'][0]);
 
@@ -125,7 +125,14 @@ class ImportSchoolHolidaysData extends Command
         return $school_holiday;
     }
 
-
+    /**
+     * Save regions to database
+     *
+     * @param $region
+     * @param $school_holiday_id
+     * @param $start_date
+     * @param $end_date
+     */
     public function saveRegion($region, $school_holiday_id, $start_date, $end_date)
     {
         Region::updateOrCreate(
