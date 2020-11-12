@@ -22,5 +22,15 @@ class SchoolHolidayController extends Controller
 
         return view('index', compact('schoolyears'));
     }
-    
+
+    public function show($schoolyear)
+    {
+        $schoolyear = str_replace('-', " - ", $schoolyear);
+
+        $content = Content::where('title', 'LIKE', '%'.$schoolyear.'%')->first();
+        $school_holidays = SchoolHoliday::where('schoolyear', $schoolyear)->with('regions')->get();
+
+        return view('schoolholidays', compact([ 'content', 'school_holidays', 'regions']));
+
+    }
 }
