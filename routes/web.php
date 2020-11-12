@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'SchoolHolidayController@index');
+Route::get('/schoolholidays/{schoolholidays}', 'SchoolHolidayController@show')->name('show_school_holidays');
