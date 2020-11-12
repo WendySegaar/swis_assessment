@@ -13,4 +13,15 @@ class SchoolHoliday extends Model
         'type',
         'compulsory_dates'
     ];
+
+    /**
+     * SchoolHoliday has many regions
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function regions()
+    {
+        return $this->hasMany(Region::class, 'school_holiday_id', 'school_holiday_id');
+    }
+
 }
