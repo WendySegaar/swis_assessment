@@ -12,6 +12,11 @@ use Illuminate\Console\Command;
 class ImportSchoolHolidaysData extends Command
 {
     /**
+     * The url with schoolholidays data
+     */
+    const DATA_URL = 'https://opendata.rijksoverheid.nl/v1/sources/rijksoverheid/infotypes/schoolholidays/schoolyear/2020-2021?output=json';
+
+    /**
      * The name and signature of the console command.
      *
      * @var string
@@ -42,10 +47,8 @@ class ImportSchoolHolidaysData extends Command
      */
     public function handle()
     {
-        $url = 'https://opendata.rijksoverheid.nl/v1/sources/rijksoverheid/infotypes/schoolholidays/schoolyear/2020-2021?output=json';
-
         $client = new Client();
-        $request = $client->createRequest('GET', $url, ['verify' => false]);
+        $request = $client->createRequest('GET', self::DATA_URL, ['verify' => false]);
         $response = $client->send($request);
 
 
@@ -57,15 +60,17 @@ class ImportSchoolHolidaysData extends Command
             $title = trim($content['title']);
             $notice = trim(str_replace('&sup1;', '', $result['notice']));
             $authorities = trim($result['authorities'][0]);
-            $rightholders = trim($result['rightsholders'][0]);
+            $rightsholders = trim($result['rightsholders'][0]);
 
-            $this->saveContent($title, $notice, $result['license'], $authorities, $rightholders, $result['location']);
+            $this->saveContent($title, $notice, $result['license'], $authorities, $rightsholders, $result['location']);
 
             foreach ($content['vacations'] as $vacation) {
-
                 $type = trim($vacation['type']);
                 $schoolyear = trim($content['schoolyear']);
-                $school_holiday = $this->saveSchoolHoliday($schoolyear, $type, $vacation['compulsorydates']);
+
+                $compulsory_dates = $this->convertToTinyInt($vacation['compulsorydates']);
+
+                $school_holiday = $this->saveSchoolHoliday($schoolyear, $type, $compulsory_dates);
 
                 foreach ($vacation['regions'] as $region) {
 
@@ -86,10 +91,10 @@ class ImportSchoolHolidaysData extends Command
      * @param $notice
      * @param $license
      * @param $authorities
-     * @param $rightholders
+     * @param $rightsholders
      * @param $location
      */
-    public function saveContent($title, $notice, $license, $authorities, $rightholders, $location)
+    public function saveContent($title, $notice, $license, $authorities, $rightsholders, $location)
     {
         Content::updateOrCreate(
             ['title' => $title],
@@ -97,7 +102,7 @@ class ImportSchoolHolidaysData extends Command
                 'notice' => $notice,
                 'license' => $license,
                 'authorities' => $authorities,
-                'rightholders' => $rightholders,
+                'rightsholders' => $rightsholders,
                 'location' => $location
             ]
         );
@@ -108,18 +113,18 @@ class ImportSchoolHolidaysData extends Command
      *
      * @param $schoolyear
      * @param $type
-     * @param $compulsorydates
+     * @param $compulsory_dates
      *
      * @return mixed
      */
-    public function saveSchoolHoliday($schoolyear, $type, $compulsorydates)
+    public function saveSchoolHoliday($schoolyear, $type, $compulsory_dates)
     {
         $school_holiday = SchoolHoliday::updateOrCreate(
             [
                 'schoolyear' => $schoolyear,
                 'type' => $type
             ],
-            ['compulsorydates' => $compulsorydates]
+            ['compulsory_dates' => $compulsory_dates ]
         );
 
         return $school_holiday;
@@ -145,5 +150,20 @@ class ImportSchoolHolidaysData extends Command
                 'end_date' => $end_date
             ]
         );
+    }
+
+    /**
+     * Convert string to tiny int
+     *
+     * @param $boolean
+     * @return int
+     */
+    public function convertToTinyInt($boolean)
+    {
+        if ($boolean === 'true') {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
