@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
+@extends('layouts.app')
 
-</head>
-<body>
 
-    <h1>Selecteer een schooljaar</h1>
+@section('title')
+    Selecteer een schooljaar
+@endsection
+
+@section('content')
     <ul>
         @foreach($schoolyears as $schoolyear)
-            <li><a href="{{ route('show_school_holidays', $schoolyear['schoolyear'] ) }}">{{ $schoolyear['displaySchoolyear'] }}</a></li>
+            <li>
+                <a href="{{ route('show_school_holidays', $schoolyear['schoolyear'] ) }}">{{ $schoolyear['displaySchoolyear'] }}</a>
+            </li>
         @endforeach
     </ul>
-
-</body>
-</html>
+@endsection
