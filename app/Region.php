@@ -29,8 +29,8 @@ class Region extends Model
 
     public function getFormattedDateAttribute()
     {
-        $start_date = Carbon::parse($this->start_date)->locale('nl')->translatedFormat('d F Y');
-        $end_date = Carbon::parse($this->end_date)->locale('nl')->translatedFormat('d F Y');
+        $start_date = Carbon::parse($this->start_date)->translatedFormat('d F Y');
+        $end_date = Carbon::parse($this->end_date)->translatedFormat('d F Y');
         return "{$start_date} - {$end_date}";
     }
 }
