@@ -1,0 +1,84 @@
+@charset "UTF-8";
+
+:root {
+    --light-blue: #D0E4F5;
+    --blue: #0B6FA4;
+    --dark-grey: #262626;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    color: var(--dark-grey);
+}
+
+header {
+    margin: 2vw 7vw;
+}
+h1 {
+    font-size: 32px;
+    font-weight: 500;
+}
+.content {
+    margin: 0 7vw;
+}
+
+/*Index page*/
+ul li {
+    list-style-type: none;
+}
+
+ul li a {
+    color: var(--blue);
+}
+
+/*Schoolholidays page*/
+table {
+    border: 1px solid white;
+    text-align: center;
+    border-collapse: collapse;
+}
+table caption {
+    font-size: 16px;
+    text-align: left;
+    margin-bottom: 2px;
+    color: var(--blue);
+}
+table thead {
+    background: var(--blue);
+}
+table thead th {
+    font-size: 17px;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    border-left: 2px solid white;
+}
+table thead th:first-child {
+    border-left: none;
+}
+table th, table td {
+    border: 1px solid white;
+    padding: 8px 3px;
+}
+table tr:nth-child(even) {
+    background: var(--light-blue);
+}
+table tbody td, tfoot {
+     font-size: 14px;
+}
+table tbody tr td:first-child {
+    font-weight: 500;
+}
+table tfoot td{
+    background: var(--light-blue);
+    border-top: 2px solid var(--blue);
+    padding: 10px 15px;
+}
+
+footer {
+    margin: 2vw 7vw;
+    font-size: 16px;
+    color: var(--blue);
+}
